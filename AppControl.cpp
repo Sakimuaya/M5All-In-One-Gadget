@@ -95,19 +95,22 @@ void AppControl::setFocusState(FocusState fs)
 void AppControl::displayTitleInit()
 {
     mlcd.displayJpgImageCoordinate(TITLE_IMG_PATH,TITLE_X_CRD,TITLE_Y_CRD);
+   
 }
 
 void AppControl::displayMenuInit();
 {
     /*0609に編集*/
+   
     mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
 }
 
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
 {
     /*0609に編集*/
-    
-
 }
 
 void AppControl::displayWBGTInit()
@@ -168,14 +171,20 @@ void AppControl::controlApplication()
                 ** この関数の中身はまだ何もないので、この関数にタイトル画面表示処理を書いてみよう。
                 */
                 displayTitleInit();
+                setStateMachine(TITLE,DO);
 
                 break;
 
             case DO:
-
+                  if(setBtnAFlg==true||buttonB_isr==true||buttonC_isr==true)
+                  {setStateMachine(TITLE,EXIT);}
+                  else{}
                 break;
 
             case EXIT:
+             void M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
+                setStateMachine(MENU,ENTRY);
+            
                 break;
 
             default:
@@ -189,6 +198,7 @@ void AppControl::controlApplication()
             switch (getAction()) {
             case ENTRY:
                 displayMenuInit();
+                setStateMachine(MENU,DO);
                 break;
 
             case DO:
