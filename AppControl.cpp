@@ -98,7 +98,7 @@ void AppControl::displayTitleInit()
    
 }
 
-void AppControl::displayMenuInit();
+void AppControl::displayMenuInit()
 {
     /*0609に編集*/
    
@@ -111,6 +111,7 @@ void AppControl::displayMenuInit();
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
 {
     /*0609に編集*/
+
 }
 
 void AppControl::displayWBGTInit()
@@ -176,9 +177,10 @@ void AppControl::controlApplication()
                 break;
 
             case DO:
-                  if(setBtnAFlg==true||buttonB_isr==true||buttonC_isr==true)
+                  if(m_flag_btnA_is_pressed==true||m_flag_btnB_is_pressed==true||m_flag_btnC_is_pressed==true)
                   {setStateMachine(TITLE,EXIT);}
                   else{}
+                  AppControl::setBtnAllFlgFalse();
                 break;
 
             case EXIT:

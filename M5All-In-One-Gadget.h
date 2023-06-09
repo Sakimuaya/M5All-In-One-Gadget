@@ -86,6 +86,10 @@
 #define MENU_WBGT_Y_CRD 0
 #define MENU_MUSIC_X_CRD 0
 #define MENU_MUSIC_Y_CRD 50
+#define MENU_MEASURE_X_CRD 0
+#define MENU_MEASURE_Y_CRD 100
+#define MENU_PATH_X_CRD 0
+#define MENU_PATH_Y_CRD 150
 
 // WBGT jpg image coordinate
 
