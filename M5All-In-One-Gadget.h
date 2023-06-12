@@ -90,6 +90,13 @@
 #define MENU_MEASURE_Y_CRD 100
 #define MENU_PATH_X_CRD 0
 #define MENU_PATH_Y_CRD 150
+#define MENU_DOWN_X_CRD 240
+#define MENU_DOWN_Y_CRD 200
+#define MENU_UP_X_CRD 0
+#define MENU_UP_Y_CRD 200
+#define MENU_DECIDE_X_CRD 120
+#define MENU_DECIDE_Y_CRD 200
+
 
 // WBGT jpg image coordinate
 

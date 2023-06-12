@@ -82,12 +82,12 @@ void AppControl::setStateMachine(State state, Action action)
     setAction(action);
 }
 
-FocusState AppControl::getFocusState()
+FocusState AppControl::getFocusState()//この変数の役割がわからない状態（変数ほしいときにそのままよびだすのはNG?)
 {
     return m_focus_state;
 }
 
-void AppControl::setFocusState(FocusState fs)
+void AppControl::setFocusState(FocusState fs)//多分フォーカス変数変更設定
 {
     m_focus_state = fs;
 }
@@ -106,11 +106,25 @@ void AppControl::displayMenuInit()
     mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
     mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH,MENU_DOWN_X_CRD,MENU_DOWN_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH,MENU_DECIDE_X_CRD,MENU_DECIDE_Y_CRD);
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH,MENU_UP_X_CRD,MENU_UP_Y_CRD);
 }
 
-void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
+void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)//現在フォーカスの項目、次のフォーカスの項目
 {
-    /*0609に編集*/
+    /*0612に編集*/
+/*熱中症フォーカス時*/
+    if(current_state==MENU_WBGT||next_state==MENU_DATE)
+    {   M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
+        mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+        mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+    }
+    else if(current_state==MENU_WBGT||next_state==MENU_MUSIC)
+    {   M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
+        mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+        mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
+    }
 
 }
 
@@ -204,6 +218,28 @@ void AppControl::controlApplication()
                 break;
 
             case DO:
+            if(getFocusState()==MENU_WBGT)
+            {
+                //下のifは熱中症フォーカスの時の内容。↓
+                if(m_flag_btnA_is_pressed==true)
+                {
+                AppControl::setBtnAllFlgFalse();
+                focusChangeImg(MENU_WBGT, MENU_DATE);
+                setFocusState(MENU_DATE);
+                 }
+                 if(m_flag_btnC_is_pressed==true)
+                 {
+                  AppControl::setBtnAllFlgFalse();
+                  focusChangeImg(MENU_WBGT, MENU_MUSIC);
+                  setFocusState(MENU_MUSIC);
+                 }
+                  else
+                   {
+                AppControl::setBtnAllFlgFalse();
+                displayWBGTInit();
+                  }
+            }
+                    /*熱中症フォーカス↑*/
 
                 break;
 
