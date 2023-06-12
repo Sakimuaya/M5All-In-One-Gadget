@@ -184,7 +184,7 @@ void AppControl::controlApplication()
                 break;
 
             case EXIT:
-             void M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
+             M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
                 setStateMachine(MENU,ENTRY);
             
                 break;
