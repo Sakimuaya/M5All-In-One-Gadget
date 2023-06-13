@@ -96,12 +96,23 @@
 #define MENU_UP_Y_CRD 200
 #define MENU_DECIDE_X_CRD 120
 #define MENU_DECIDE_Y_CRD 200
+#define BUCK_X_CRD 120
+#define BUCK_Y_CRD 200
+
 
 
 // WBGT jpg image coordinate
-
+#define WBGT_TEMPERATURE_X_CRD 0
+#define WBGT_TEMPERATURE_Y_CRD 0
+#define WBGT_DEGREE_X_CRD 0
+#define WBGT_DEGREE_Y_CRD 253
+#define WBGT_HUMIDITY_X_CRD 0
+#define WBGT_HUMIDITY_Y_CRD 50
+#define WBGT_PERCENT_X_CRD 253
+#define WBGT_PERCENT_Y_CRD 50
 // Music jpg image coordinate
-
+#define MUSIC_NOWSTOPPING_X_CRD 0
+#define MUSIC_NOWSTOPPING_Y_CRD 0
 // Measure jpg image coordinate
 
 // Date jpg image coordinate
@@ -136,3 +147,10 @@ typedef enum {
     HIGH_ALERT,
     DANGER
 } WbgtIndex;
+
+/*作業コピー用スペース
+
+
+
+
+*/

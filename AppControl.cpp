@@ -3,7 +3,7 @@
 #include <M5Stack.h>
 
 MdLcd mlcd;
-MdWBGTMonitor mwbgt;
+MdWBGTMonitor mwbgt;//多分温度センサー
 MdMusicPlayer mmplay;
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
@@ -123,12 +123,15 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
     if(current_state==MENU_WBGT)
     {
     mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
          if(next_state==MENU_DATE)
-        {   
+        {   //データフォーカス移動
+             mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
              mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
          }
         else if(current_state==MENU_WBGT&&next_state==MENU_MUSIC)
-        {
+        {//音楽フォーカス移動
+             mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
           mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
          }
     }
@@ -136,12 +139,15 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
     else if(current_state==MENU_MUSIC)
      {
     mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
-        if(next_state==MENU_MEASURE)//熱中症フォーカス移動
-         {
+        mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+        if(next_state==MENU_WBGT)
+         {//熱中症フォーカス移動
+         mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
          mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
          }
-         else if(current_state==MENU_MUSIC&&next_state==MENU_MEASURE)//距離フォーカス移動
-        {
+         else if(next_state==MENU_MEASURE)
+        {//距離フォーカス移動
+                mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
          mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
          }
      }
@@ -150,12 +156,15 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
      else if(current_state==MENU_MEASURE)
      {
     mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
+        mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
         if(next_state==MENU_MUSIC)
-        {
+        {//音楽フォーカス移動
+             mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
             mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
         }
         else if(next_state==MENU_DATE)
-        {
+        {//時刻フォーカス移動
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
             mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
         }
      }
@@ -164,12 +173,15 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
      else if(current_state==MENU_DATE)
      {
         mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+        mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
         if(next_state==MENU_WBGT)
-        {
+        {//熱中症フォーカス移動
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
             mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
         }
-        else if(current_state==MENU_MEASURE)
-        {
+        else
+        {//距離フォーカス移動
+             mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
             mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
         }
      }
@@ -179,19 +191,31 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
 }
 
 void AppControl::displayWBGTInit()
-{
-}
+{//0613に編集//
+       M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,BUCK_X_CRD,BUCK_Y_CRD);//戻るボタン
+    mlcd.displayJpgImageCoordinate(WBGT_TEMPERATURE_IMG_PATH,WBGT_TEMPERATURE_X_CRD,WBGT_TEMPERATURE_Y_CRD);//温度
+    mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_DEGREE_X_CRD,WBGT_DEGREE_Y_CRD);//ｃ//なぜか表示されない
+    mlcd.displayJpgImageCoordinate(WBGT_HUMIDITY_IMG_PATH,WBGT_HUMIDITY_X_CRD,WBGT_HUMIDITY_Y_CRD);//湿度
+     mlcd.displayJpgImageCoordinate(WBGT_PERCENT_IMG_PATH,WBGT_PERCENT_X_CRD,WBGT_PERCENT_Y_CRD);//%
+displayTempHumiIndex();
 
-void AppControl::displayTempHumiIndex()
+}   
+
+void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・湿度・アラートを描画する
 {
+
 }
 
 void AppControl::displayMusicInit()
 {
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,BUCK_X_CRD,BUCK_Y_CRD);//戻るボタン
+    mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
 }
 
 void AppControl::displayMusicStop()
 {
+     mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
 }
 
 void AppControl::displayMusicTitle()
@@ -286,10 +310,10 @@ void AppControl::controlApplication()
                   focusChangeImg(MENU_WBGT, MENU_MUSIC);
                   setFocusState(MENU_MUSIC);
                  }
-                  else
+                  if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
-                displayWBGTInit();
+                setStateMachine(MENU,EXIT);
                   }
             }
                     /*熱中症フォーカス↑*/
@@ -309,10 +333,11 @@ void AppControl::controlApplication()
                   focusChangeImg(MENU_MUSIC, MENU_MEASURE);
                   setFocusState(MENU_MEASURE);
                  }
-                  else
+                  if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
                 displayWBGTInit();
+                setStateMachine(MENU,EXIT);
                   }
             }
             //ミュージック↑//
@@ -331,10 +356,11 @@ void AppControl::controlApplication()
                   focusChangeImg(MENU_MEASURE, MENU_DATE);
                   setFocusState(MENU_DATE);
                  }
-                  else
+                  if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
                 displayWBGTInit();
+                setStateMachine(MENU,EXIT);
                   }
             }
             //距離測定↑//
@@ -344,19 +370,20 @@ void AppControl::controlApplication()
            if(m_flag_btnA_is_pressed==true)
                 {
                 AppControl::setBtnAllFlgFalse();
-                focusChangeImg(MENU_DATE, MENU_WBGT);
-                setFocusState(MENU_WBGT);
+                  focusChangeImg(MENU_DATE, MENU_MEASURE);
+                  setFocusState(MENU_MEASURE);
                  }
                  if(m_flag_btnC_is_pressed==true)
                  {
                   AppControl::setBtnAllFlgFalse();
-                  focusChangeImg(MENU_DATE, MENU_MEASURE);
-                  setFocusState(MENU_MEASURE);
+                focusChangeImg(MENU_DATE, MENU_WBGT);
+                setFocusState(MENU_WBGT);
                  }
-                  else
+                 if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
                 displayWBGTInit();
+                setStateMachine(MENU,EXIT);
                   }
 
             }
@@ -364,11 +391,29 @@ void AppControl::controlApplication()
                 break;
             
             case EXIT:
+           switch (getFocusState()) {
+            case MENU_WBGT :
+            setStateMachine(WBGT,ENTRY);
+            break;
+
+              case MENU_MUSIC:
+            setStateMachine(MUSIC_STOP,ENTRY);
+            break;
+
+              case MENU_MEASURE:
+            setStateMachine(MEASURE,ENTRY);
+            break;
+
+            default:
+            setStateMachine(DATE,ENTRY);
+                break;
+
+           }
 
             default:
                 break;
             
-            }
+         }
             break;
 
 
@@ -378,13 +423,20 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
-
+            displayWBGTInit();
+            setStateMachine(WBGT,DO);
                 break;
 
             case DO:
+            if(m_flag_btnB_is_pressed==true)
+            {
+            AppControl::setBtnAllFlgFalse();
+            setStateMachine(WBGT,EXIT);
+            }
                 break;
 
             case EXIT:
+            setStateMachine(MENU,ENTRY);
                 break;
 
             default:
