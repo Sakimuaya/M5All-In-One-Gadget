@@ -113,34 +113,69 @@ void AppControl::displayMenuInit()
 
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)//現在フォーカスの項目、次のフォーカスの項目
 {
-    /*0612に編集*/ 
+    /*0612に編集*/ /*0613に編集*/
     M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
      mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH,MENU_DOWN_X_CRD,MENU_DOWN_Y_CRD);
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH,MENU_DECIDE_X_CRD,MENU_DECIDE_Y_CRD);
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH,MENU_UP_X_CRD,MENU_UP_Y_CRD);
     
     /*熱中症フォーカス時*/
-    if(current_state==MENU_WBGT&&next_state==MENU_DATE)
-    {   
-        mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
-        mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
-    }
-    else if(current_state==MENU_WBGT&&next_state==MENU_MUSIC)
+    if(current_state==MENU_WBGT)
     {
-        mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
-        mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
+    mlcd.displayJpgImageCoordinate(MENU_WBGT_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+         if(next_state==MENU_DATE)
+        {   
+             mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+         }
+        else if(current_state==MENU_WBGT&&next_state==MENU_MUSIC)
+        {
+          mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
+         }
     }
-    /*ミュージックフォーカス時*/
-    if(current_state==MENU_MUSIC&&next_state==MENU_MEASURE)//熱中症フォーカス移動
-    {
+         /*ミュージックフォーカス時*/
+    else if(current_state==MENU_MUSIC)
+     {
     mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
-    mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
-    }
-    else if(current_state==MENU_MUSIC&&next_state==MENU_MEASURE)//距離フォーカス移動
-   {
-    mlcd.displayJpgImageCoordinate(MENU_MUSIC_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
-    mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
-    }
+        if(next_state==MENU_MEASURE)//熱中症フォーカス移動
+         {
+         mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+         }
+         else if(current_state==MENU_MUSIC&&next_state==MENU_MEASURE)//距離フォーカス移動
+        {
+         mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
+         }
+     }
+         /*ミュージック↑*/
+        /*距離測定↓**/
+     else if(current_state==MENU_MEASURE)
+     {
+    mlcd.displayJpgImageCoordinate(MENU_MEASURE_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
+        if(next_state==MENU_MUSIC)
+        {
+            mlcd.displayJpgImageCoordinate(MENU_MUSIC_FOCUS_IMG_PATH,MENU_MUSIC_X_CRD,MENU_MUSIC_Y_CRD);
+        }
+        else if(next_state==MENU_DATE)
+        {
+            mlcd.displayJpgImageCoordinate(MENU_DATE_FOCUS_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+        }
+     }
+        /*距離測定↑*/
+        /*時刻表示↓*/
+     else if(current_state==MENU_DATE)
+     {
+        mlcd.displayJpgImageCoordinate(MENU_DATE_IMG_PATH,MENU_PATH_X_CRD,MENU_PATH_Y_CRD);
+        if(next_state==MENU_WBGT)
+        {
+            mlcd.displayJpgImageCoordinate(MENU_WBGT_FOCUS_IMG_PATH,MENU_WBGT_X_CRD,MENU_WBGT_Y_CRD);
+        }
+        else if(current_state==MENU_MEASURE)
+        {
+            mlcd.displayJpgImageCoordinate(MENU_MEASURE_FOCUS_IMG_PATH,MENU_MEASURE_X_CRD,MENU_MEASURE_Y_CRD);
+        }
+     }
+
+
+
 }
 
 void AppControl::displayWBGTInit()
@@ -233,7 +268,8 @@ void AppControl::controlApplication()
                 break;
 
             case DO:
-
+//最初のifは現在のフォーカスで分岐、次のifは押したボタンで分岐
+           //熱中症フォーカス//
             if(getFocusState()==MENU_WBGT)
             {
                 //Aボタンは↑、Cボタンは↓
@@ -258,7 +294,7 @@ void AppControl::controlApplication()
             }
                     /*熱中症フォーカス↑*/
                     /*ミュージックフォーカス時の表示*/
-            if(getFocusState()==MENU_MUSIC)
+            else if(getFocusState()==MENU_MUSIC)
             {
                 //下のifはミュージックフォーカスの時の内容。↓
                 if(m_flag_btnA_is_pressed==true)
@@ -279,18 +315,65 @@ void AppControl::controlApplication()
                 displayWBGTInit();
                   }
             }
+            //ミュージック↑//
+            //距離測定フォーカス//
+            else if(getFocusState()==MENU_MEASURE)
+            {
+                if(m_flag_btnA_is_pressed==true)
+                {
+                AppControl::setBtnAllFlgFalse();
+                focusChangeImg(MENU_MEASURE, MENU_MUSIC);
+                setFocusState(MENU_MUSIC);
+                 }
+                 if(m_flag_btnC_is_pressed==true)
+                 {
+                  AppControl::setBtnAllFlgFalse();
+                  focusChangeImg(MENU_MEASURE, MENU_DATE);
+                  setFocusState(MENU_DATE);
+                 }
+                  else
+                   {
+                AppControl::setBtnAllFlgFalse();
+                displayWBGTInit();
+                  }
+            }
+            //距離測定↑//
+            //時刻表示//
+            else if(getFocusState()==MENU_DATE)
+            {
+           if(m_flag_btnA_is_pressed==true)
+                {
+                AppControl::setBtnAllFlgFalse();
+                focusChangeImg(MENU_DATE, MENU_WBGT);
+                setFocusState(MENU_WBGT);
+                 }
+                 if(m_flag_btnC_is_pressed==true)
+                 {
+                  AppControl::setBtnAllFlgFalse();
+                  focusChangeImg(MENU_DATE, MENU_MEASURE);
+                  setFocusState(MENU_MEASURE);
+                 }
+                  else
+                   {
+                AppControl::setBtnAllFlgFalse();
+                displayWBGTInit();
+                  }
 
-
+            }
+            //時刻表示↑//
                 break;
-
+            
             case EXIT:
 
             default:
                 break;
+            
             }
-
             break;
 
+
+
+//ここからはそれぞれのメニューの中身//
         case WBGT:
 
             switch (getAction()) {
