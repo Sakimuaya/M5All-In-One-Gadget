@@ -271,7 +271,7 @@ void AppControl::controlApplication()
 //最初のifは現在のフォーカスで分岐、次のifは押したボタンで分岐
            //熱中症フォーカス//
             if(getFocusState()==MENU_WBGT)
-            {
+            {    Serial.println("熱中症フォーカス");
                 //Aボタンは↑、Cボタンは↓
                 //下のifは熱中症フォーカスの時の内容。↓
                 if(m_flag_btnA_is_pressed==true)
@@ -295,7 +295,7 @@ void AppControl::controlApplication()
                     /*熱中症フォーカス↑*/
                     /*ミュージックフォーカス時の表示*/
             else if(getFocusState()==MENU_MUSIC)
-            {
+            {    Serial.println("音楽フォーカス");
                 //下のifはミュージックフォーカスの時の内容。↓
                 if(m_flag_btnA_is_pressed==true)
                 {
@@ -318,7 +318,7 @@ void AppControl::controlApplication()
             //ミュージック↑//
             //距離測定フォーカス//
             else if(getFocusState()==MENU_MEASURE)
-            {
+            {    Serial.println("距離フォーカス");
                 if(m_flag_btnA_is_pressed==true)
                 {
                 AppControl::setBtnAllFlgFalse();
@@ -340,7 +340,7 @@ void AppControl::controlApplication()
             //距離測定↑//
             //時刻表示//
             else if(getFocusState()==MENU_DATE)
-            {
+            {    Serial.println("時刻フォーカス");
            if(m_flag_btnA_is_pressed==true)
                 {
                 AppControl::setBtnAllFlgFalse();
