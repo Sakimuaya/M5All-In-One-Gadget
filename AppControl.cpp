@@ -3,8 +3,8 @@
 #include <M5Stack.h>
 
 MdLcd mlcd;
-MdWBGTMonitor mwbgt;//多分温度センサー
-MdMusicPlayer mmplay;
+MdWBGTMonitor mwbgt;//温度センサー
+MdMusicPlayer mmplay;//
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
 
@@ -207,19 +207,25 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
 
 }
 
-void AppControl::displayMusicInit()
+void AppControl::displayMusicInit()//おんがく初期画面
 {
+    //void M5.Lcd.fillScreen(WHITE);
+    M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,BUCK_X_CRD,BUCK_Y_CRD);//戻るボタン
     mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
 }
 
-void AppControl::displayMusicStop()
+void AppControl::displayMusicStop()//停止画面表示
 {
      mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
 }
 
-void AppControl::displayMusicTitle()
+void AppControl::displayMusicTitle()//音楽タイトル描写
 {
+    
+    MdMusicPlayer musicPlayer;
+    char* title = musicPlayer.getTitle();
+    mlcd.displayText(title, 10, 120);
 }
 
 void AppControl::displayNextMusic()
@@ -336,7 +342,6 @@ void AppControl::controlApplication()
                   if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
-                displayWBGTInit();
                 setStateMachine(MENU,EXIT);
                   }
             }
@@ -428,6 +433,7 @@ void AppControl::controlApplication()
                 break;
 
             case DO:
+           
             if(m_flag_btnB_is_pressed==true)
             {
             AppControl::setBtnAllFlgFalse();
@@ -448,12 +454,28 @@ void AppControl::controlApplication()
         case MUSIC_STOP:
             switch (getAction()) {
             case ENTRY:
+            displayMusicInit();
+            setStateMachine(MUSIC_STOP,DO);
+
                 break;
 
-            case DO:
+            case DO: 
+            displayMusicTitle();
+            displayMusicStop();
+            if(m_flag_btnB_is_pressed==true)
+            {
+            setStateMachine(MUSIC_STOP,EXIT);
+            }
+
                 break;
 
             case EXIT:
+            if(m_flag_btnB_is_pressed==true)
+            {
+                AppControl::setBtnAllFlgFalse();
+            setStateMachine(MENU,ENTRY);
+            }
+
                 break;
 
             default:

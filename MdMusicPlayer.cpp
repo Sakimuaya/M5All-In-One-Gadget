@@ -26,7 +26,7 @@ void MdMusicPlayer::init()
     }
 }
 
-char* MdMusicPlayer::getTitle()
+char* MdMusicPlayer::getTitle()//音楽タイトル取得/
 {
     return (char*)entry.name();
 }

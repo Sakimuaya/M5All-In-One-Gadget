@@ -36,3 +36,5 @@ void MdLcd::displayDateText(String text, int x, int y)
     M5.Lcd.setTextSize(5);
     M5.Lcd.print(text);
 }
+
+
