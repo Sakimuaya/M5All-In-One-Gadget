@@ -8,6 +8,9 @@ MdMusicPlayer mmplay;//
 MdMeasureDistance mmdist;
 MdDateTime mdtime;
 
+
+
+
 const char* g_str_orange[] = {
     COMMON_ORANGE0_IMG_PATH,
     COMMON_ORANGE1_IMG_PATH,
@@ -113,12 +116,12 @@ void AppControl::displayMenuInit()
 
 void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)//現在フォーカスの項目、次のフォーカスの項目
 {
-    /*0612に編集*/ /*0613に編集*/
+    /*0612に編集*/ /*0613に編集*//*
     M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
      mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DOWN_IMG_PATH,MENU_DOWN_X_CRD,MENU_DOWN_Y_CRD);
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_DECIDE_IMG_PATH,MENU_DECIDE_X_CRD,MENU_DECIDE_Y_CRD);
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_UP_IMG_PATH,MENU_UP_X_CRD,MENU_UP_Y_CRD);
-    
+    重ね張りいけたので上記のものはなかったことに*/
     /*熱中症フォーカス時*/
     if(current_state==MENU_WBGT)
     {
@@ -192,8 +195,8 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
 
 void AppControl::displayWBGTInit()
 {//0613に編集//
-       M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
-    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,BUCK_X_CRD,BUCK_Y_CRD);//戻るボタン
+     mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,WBGT_BACK_X_CRD,WBGT_BACK_Y_CRD);//戻るボタン
     mlcd.displayJpgImageCoordinate(WBGT_TEMPERATURE_IMG_PATH,WBGT_TEMPERATURE_X_CRD,WBGT_TEMPERATURE_Y_CRD);//温度
     mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_DEGREE_X_CRD,WBGT_DEGREE_Y_CRD);//ｃ//なぜか表示されない
     mlcd.displayJpgImageCoordinate(WBGT_HUMIDITY_IMG_PATH,WBGT_HUMIDITY_X_CRD,WBGT_HUMIDITY_Y_CRD);//湿度
@@ -209,51 +212,71 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
 
 void AppControl::displayMusicInit()//おんがく初期画面
 {
-    //void M5.Lcd.fillScreen(WHITE);
-    M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
-    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,BUCK_X_CRD,BUCK_Y_CRD);//戻るボタン
-    mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
+    mlcd.fillBackgroundWhite();
+
 }
 
 void AppControl::displayMusicStop()//停止画面表示
 {
-     mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOWSTOPPING_X_CRD,MUSIC_NOWSTOPPING_Y_CRD);//now stoping
+     mlcd.displayJpgImageCoordinate(MUSIC_NOWSTOPPING_IMG_PATH,MUSIC_NOTICE_X_CRD,MUSIC_NOTICE_Y_CRD);//now stoping
+         mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,MUSIC_BACK_X_CRD,MUSIC_BACK_Y_CRD);//戻るボタン
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_NEXT_IMG_PATH,MUSIC_NEXT_X_CRD,MUSIC_NEXT_Y_CRD);//次の曲
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_PLAY_IMG_PATH,MUSIC_PLAY_X_CRD,MUSIC_PLAY_Y_CRD);//再生ボタン
 }
 
 void AppControl::displayMusicTitle()//音楽タイトル描写
 {
-    
-    MdMusicPlayer musicPlayer;
-    char* title = musicPlayer.getTitle();
-    mlcd.displayText(title, 10, 120);
+     
+    mlcd.displayText(mmplay.getTitle(), MUSIC_TITLE_X_CRD, MUSIC_TITLE_Y_CRD);
 }
 
-void AppControl::displayNextMusic()
+void AppControl::displayNextMusic()//次のファイルを描写する
+{
+    mmplay.selectNextMusic();//取得したタイトルをつぎのタイトルに変更していると予想
+    displayMusicTitle();
+
+}
+
+void AppControl::displayMusicPlay()//音楽再生画面の描写
+{
+         mlcd.fillBackgroundWhite();
+         mlcd.displayJpgImageCoordinate(MUSIC_NOWPLAYING_IMG_PATH,MUSIC_NOTICE_X_CRD,MUSIC_NOTICE_Y_CRD);//now playing
+            mlcd.displayJpgImageCoordinate(COMMON_BUTTON_STOP_IMG_PATH,MUSIC_STOP_X_CRD,MUSIC_STOP_Y_CRD);//停止ボタン	
+/*0615にかいたもの*/
+         mmplay.prepareMP3();
+       if( ! mmplay.isRunningMP3())
+       {
+        mmplay.playMP3();
+       }
+      
+}
+
+void AppControl::displayMeasureInit()//距離の初期画面
+{
+    mlcd.fillBackgroundWhite();//画面を白く
+   mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,MEASURE_BACK_X_CRD,MEASURE_BACK_Y_CRD);//戻るボタン
+    mlcd.displayJpgImageCoordinate(MEASURE_NOTICE_IMG_PATH,MEASURE_NOTICE_X_CRD,MEASURE_NOTICE_Y_CRD);//測定中の画面
+
+}
+
+void AppControl::displayMeasureDistance()//測定した距離を画面に出す
 {
 }
 
-void AppControl::displayMusicPlay()
+void AppControl::displayDateInit()//時刻の初期画面
+{
+    mlcd.fillBackgroundWhite();
+    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,DATE_BACK_X_CRD,DATE_BACK_Y_CRD);//戻るボタン
+    mlcd.displayJpgImageCoordinate(DATE_NOTICE_IMG_PATH,DATE_NOTICE_X_CAD,DATE_NOTICE_Y_CAD);//文字
+}
+
+void AppControl::displayDateUpdate()//現在の時刻の描写
 {
 }
 
-void AppControl::displayMeasureInit()
+void AppControl::controlApplication()//すべての機能のコントロール
 {
-}
-
-void AppControl::displayMeasureDistance()
-{
-}
-
-void AppControl::displayDateInit()
-{
-}
-
-void AppControl::displayDateUpdate()
-{
-}
-
-void AppControl::controlApplication()
-{
+    mmplay.init();
     while (1) {
 
         switch (getState()) {
@@ -364,7 +387,6 @@ void AppControl::controlApplication()
                   if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
-                displayWBGTInit();
                 setStateMachine(MENU,EXIT);
                   }
             }
@@ -387,7 +409,6 @@ void AppControl::controlApplication()
                  if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
-                displayWBGTInit();
                 setStateMachine(MENU,EXIT);
                   }
 
@@ -454,15 +475,26 @@ void AppControl::controlApplication()
         case MUSIC_STOP:
             switch (getAction()) {
             case ENTRY:
-            displayMusicInit();
+            displayMusicInit();//初期画面
+            displayMusicTitle();//タイトル描写
             setStateMachine(MUSIC_STOP,DO);
-
                 break;
 
             case DO: 
-            displayMusicTitle();
+            
             displayMusicStop();
-            if(m_flag_btnB_is_pressed==true)
+            if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
+            {
+            setStateMachine(MUSIC_STOP,EXIT);
+            }
+            else if(m_flag_btnC_is_pressed==true)//次の曲ボタンを押したとき、
+            {
+               displayNextMusic();
+                AppControl::setBtnAllFlgFalse();
+
+
+            }
+            else if (m_flag_btnA_is_pressed==true)
             {
             setStateMachine(MUSIC_STOP,EXIT);
             }
@@ -474,6 +506,11 @@ void AppControl::controlApplication()
             {
                 AppControl::setBtnAllFlgFalse();
             setStateMachine(MENU,ENTRY);
+            }
+            else  if(m_flag_btnA_is_pressed==true)
+            {
+                AppControl::setBtnAllFlgFalse();
+            setStateMachine(MUSIC_PLAY,ENTRY);
             }
 
                 break;
@@ -488,12 +525,32 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
+                displayMusicPlay();
+
+            setStateMachine(MUSIC_PLAY,DO);
                 break;
 
             case DO:
+            displayMusicTitle();
+            if(m_flag_btnA_is_pressed==true)
+            {   
+                mmplay.stopMP3();
+
+                setStateMachine(MUSIC_PLAY,EXIT);
+            }
+            
+
+            
                 break;
 
             case EXIT:
+             if(m_flag_btnA_is_pressed==true)
+            {   
+              AppControl::setBtnAllFlgFalse();
+
+                setStateMachine(MUSIC_STOP,ENTRY);
+            }
+            
                 break;
 
             default:
@@ -502,16 +559,33 @@ void AppControl::controlApplication()
 
             break;
 
+
+
+
         case MEASURE:
 
             switch (getAction()) {
             case ENTRY:
+            displayMeasureInit();//距離の初期画面
+
+            setStateMachine(MEASURE,DO);
                 break;
 
             case DO:
+            if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
+            {
+            setStateMachine(MEASURE,EXIT);
+            }
                 break;
 
             case EXIT:
+                  if(m_flag_btnB_is_pressed==true)
+                   {
+                AppControl::setBtnAllFlgFalse();
+                setStateMachine(MENU,ENTRY);
+                  }
+
+           
                 break;
 
             default:
@@ -524,12 +598,28 @@ void AppControl::controlApplication()
 
             switch (getAction()) {
             case ENTRY:
+            displayDateInit();//時刻の初期画面
+
+
+            setStateMachine(DATE,DO);
+
                 break;
 
             case DO:
+            if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
+            {
+            setStateMachine(DATE,EXIT);
+            }
+
+
                 break;
 
             case EXIT:
+                 if(m_flag_btnB_is_pressed==true)
+                   {
+                AppControl::setBtnAllFlgFalse();
+                setStateMachine(MENU,ENTRY);
+                  }
                 break;
 
             default:

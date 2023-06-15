@@ -14,7 +14,6 @@ File entry;
 
 void MdMusicPlayer::init()
 {
-    pinMode(10, OUTPUT);
 
     SD.begin();
     musicfolder = SD.open("/music");
@@ -41,7 +40,7 @@ void MdMusicPlayer::selectNextMusic()
     }
 }
 
-void MdMusicPlayer::prepareMP3()
+void MdMusicPlayer::prepareMP3()//音楽ファイルの再生に必要なインスタンスの生成とデコードを開始する
 {
     file = new AudioFileSourceSD(entry.path());
     id3 = new AudioFileSourceID3(file);
@@ -52,17 +51,17 @@ void MdMusicPlayer::prepareMP3()
     mp3->begin(id3, out);
 }
 
-bool MdMusicPlayer::isRunningMP3()
+bool MdMusicPlayer::isRunningMP3()//音楽ファイル再生中か確認。デコード中ならtrue,そうでないならfalseをかえす
 {
     return mp3->isRunning();
 }
 
-bool MdMusicPlayer::playMP3()
+bool MdMusicPlayer::playMP3()//音楽ファイルを再生する。次のデータがあるならTなければFかえす
 {
     return mp3->loop();
 }
 
-void MdMusicPlayer::stopMP3()
+void MdMusicPlayer::stopMP3()//音楽ファイルのデコードを停止する。
 {
     mp3->stop();
 }

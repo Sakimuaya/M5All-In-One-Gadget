@@ -101,21 +101,96 @@
 
 
 
+
+
 // WBGT jpg image coordinate
-#define WBGT_TEMPERATURE_X_CRD 0
-#define WBGT_TEMPERATURE_Y_CRD 0
-#define WBGT_DEGREE_X_CRD 0
-#define WBGT_DEGREE_Y_CRD 253
-#define WBGT_HUMIDITY_X_CRD 0
-#define WBGT_HUMIDITY_Y_CRD 50
-#define WBGT_PERCENT_X_CRD 253
-#define WBGT_PERCENT_Y_CRD 50
+
+#define WBGT_TEMPERATURE_X_CRD	0	//熱中症モニタ画面の「温度」画像のx座標	
+#define WBGT_TEMPERATURE_Y_CRD	0	//熱中症モニタ画面の「温度」画像のｙ座標	
+#define WBGT_HUMIDITY_X_CRD	0	//熱中症モニタ画面の「湿度」画像のx座標	
+#define WBGT_HUMIDITY_Y_CRD	50	//熱中症モニタ画面の「湿度」画像のｙ座標	
+#define WBGT_T2DIGIT_X_CRD	120	//熱中症モニタ画面の「温度の10の位の数字」画像のx座標	
+#define WBGT_T2DIGIT_Y_CRD	0	//熱中症モニタ画面の「温度の10の位の数字」画像のｙ座標	
+#define WBGT_T1DIGIT_X_CRD	153	//熱中症モニタ画面の「温度の1の位の数字」画像のx座標	
+#define WBGT_T1DIGIT_Y_CRD	0	//熱中症モニタ画面の「温度の1の位の数字」画像のｙ座標	
+#define WBGT_TDOT_X_CRD	186	//熱中症モニタ画面の「温度の.」画像のx座標	
+#define WBGT_TDOT_Y_CRD	0	//熱中症モニタ画面の「温度の.」画像のｙ座標	
+#define WBGT_T1DECIMAL_X_CRD	220	//熱中症モニタ画面の「温度の小数第一位の数字」画像のx座標	
+#define WBGT_T1DECIMAL_Y_CRD	0	//熱中症モニタ画面の「温度の小数第一位の数字」画像のｙ座標	
+#define WBGT_DEGREE_X_CRD	0	//熱中症モニタ画面の「℃」画像のx座標	
+#define WBGT_DEGREE_Y_CRD	253	//熱中症モニタ画面の「℃」画像のｙ座標	
+#define WBGT_H2DIGIT_X_CRD	120	//熱中症モニタ画面の「湿度の十の位の数字」画像のx座標	
+#define WBGT_H2DIGIT_Y_CRD	50	//熱中症モニタ画面の「湿度の十の位の数字」画像のｙ座標	
+#define WBGT_H1DIGIT_X_CRD	153	//熱中症モニタ画面の「湿度の一の位の数字」画像のx座標	
+#define WBGT_H1DIGIT_Y_CRD	50	//熱中症モニタ画面の「湿度の一の位の数字」画像のｙ座標	
+#define WBGT_HDOT_X_CRD	186	//熱中症モニタ画面の「湿度の.」画像のx座標	
+#define WBGT_HDOT_Y_CRD	50	//熱中症モニタ画面の「湿度の.」画像のｙ座標	
+#define WBGT_H1DECIMAL_X_CRD	220	//熱中症モニタ画面の「湿度の小数第一位の数字」画像のx座標	
+#define WBGT_H1DECIMAL_Y_CRD	50	//熱中症モニタ画面の「湿度の小数第一位の数字」画像のｙ座標	
+#define WBGT_PERCENT_X_CRD	253	//熱中症モニタ画面の「%」画像のx座標	
+#define WBGT_PERCENT_Y_CRD	50	//熱中症モニタ画面の「%」画像のｙ座標	
+#define WBGT_NOTICE_X_CRD	0	//熱中症モニタ画面の「熱中症アラート」画像のx座標	
+#define WBGT_NOTICE_Y_CRD	100	//熱中症モニタ画面の「熱中症アラート」画像のｙ座標	
+#define WBGT_BACK_X_CRD	120	//熱中症モニタ画面の「戻るボタン」画像のx座標	
+#define WBGT_BACK_Y_CRD	200	//熱中症モニタ画面の「戻るボタン」画像のｙ座標	
+
+
+
+
 // Music jpg image coordinate
-#define MUSIC_NOWSTOPPING_X_CRD 0
-#define MUSIC_NOWSTOPPING_Y_CRD 0
+
+
+#define MUSIC_NOTICE_X_CRD	0	//音楽プレイヤー画面の「Now Playing/Now Stooping」画像のx座標	
+#define MUSIC_NOTICE_Y_CRD	0	//音楽プレイヤー画面の「Now Playing/Now Stooping」画像のy座標	
+#define MUSIC_TITLE_X_CRD	10	//音楽プレイヤー画面の「楽曲タイトル」画像のx座標	
+#define MUSIC_TITLE_Y_CRD	120	//音楽プレイヤー画面の「楽曲タイトル」画像のy座標	
+#define MUSIC_PLAY_X_CRD	0	//音楽プレイヤー画面の「再生ボタン」画像のx座標	
+#define MUSIC_PLAY_Y_CRD	200	//音楽プレイヤー画面の「再生ボタン」画像のy座標	
+#define MUSIC_BACK_X_CRD	120	//音楽プレイヤー画面の「戻るボタン」画像のx座標	
+#define MUSIC_BACK_Y_CRD	200	//音楽プレイヤー画面の「戻るボタン」画像のy座標	
+#define MUSIC_NEXT_X_CRD	240	//音楽プレイヤー画面の「次の曲ボタン」画像のx座標	
+#define MUSIC_NEXT_Y_CRD	200	//音楽プレイヤー画面の「次の曲ボタン」画像のy座標	
+#define MUSIC_STOP_X_CRD	0	//音楽プレイヤー画面の「停止ボタン」画像のx座標	
+#define MUSIC_STOP_Y_CRD	200	//音楽プレイヤー画面の「停止ボタン」画像のy座標	
+
+
+
+
+
 // Measure jpg image coordinate
 
+#define MEASURE_NOTICE_X_CRD	0	//距離測定画面の「距離測定中」画像のx座標	
+#define MEASURE_NOTICE_Y_CRD	0	//距離測定画面の「距離測定中」画像のy座標	
+#define MEASURE_DIGIT3_X_CRD	10	//距離測定画面の「距離の百の位の数字」画像のx座標	
+#define MEASURE_DIGIT3_Y_CRD	100	///距離測定画面の「距離の百の位の数字」画像のy座標	
+#define MEASURE_DIGIT2_X_CRD	53	//距離測定画面の「距離の十の位の数字」画像のx座標	
+#define MEASURE_DIGIT2_Y_CRD	100	//距離測定画面の「距離の十の位の数字」画像のy座標	
+#define MEASURE_DIGIT1_X_CRD	96	//距離測定画面の「距離の一の位の数字」画像のx座標	
+#define MEASURE_DIGIT1_Y_CRD	100	//距離測定画面の「距離の一の位の数字」画像のy座標	
+#define MEASURE_DOT_X_CRD	139	//距離測定画面の「距離の.」画像のx座標	
+#define MEASURE_DOT_Y_CRD	100	//距離測定画面の「距離の.」画像のy座標	
+#define MEASURE_DECIMAL_X_CRD	182	//距離測定画面の「距離の小数第一位の数字」画像のx座標	
+#define MEASURE_DECIMAL_Y_CRD	100	//距離測定画面の「距離の小数第一位の数字」画像のy座標	
+#define MEASURE_CM_X_CRD	240	//距離測定画面の「cm」画像のx座標	
+#define MEASURE_CM_Y_CRD	100	//距離測定画面の「cm」画像のy座標	
+#define MEASURE_BACK_X_CRD	120	//距離測定画面の「戻るボタン」画像のx座標	
+#define MEASURE_BACK_Y_CRD	200	//距離測定画面の「戻るボタン」画像のy座標	
+
+
+
+
+
+
 // Date jpg image coordinate
+#define DATE_NOTICE_X_CAD 0
+#define DATE_NOTICE_Y_CAD 0
+#define DATE_YYYYMMDD_X_CRD	10 //日付
+#define DATE_YYYYMMDD_Y_CRD	100 //日付
+#define DATE_HHmmSS_X_CRD	40//時刻
+#define DATE_HHmmSS_Y_CRD	150//時刻
+#define DATE_BACK_X_CRD	 120//戻るボタン
+#define DATE_BACK_Y_CRD 	200 
+
 
 typedef enum {
     TITLE,
