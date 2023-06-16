@@ -7,7 +7,6 @@
 
 
 AppControl apc;//インスタンス化
-
 // BUTTON A（左） の割込み関数
 void buttonA_isr()
 {
@@ -42,7 +41,7 @@ void setup()
     attachInterrupt(digitalPinToInterrupt(BTN_A_GPIO), buttonA_isr, FALLING);
     attachInterrupt(digitalPinToInterrupt(BTN_B_GPIO), buttonB_isr, FALLING);
     attachInterrupt(digitalPinToInterrupt(BTN_C_GPIO), buttonC_isr, FALLING);
-     Serial.begin(11520);
+
 }
 
 void loop()
