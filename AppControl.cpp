@@ -537,9 +537,13 @@ void AppControl::controlApplication()//すべての機能のコントロール
             while( (mmplay.isRunningMP3()))
             {
                 if(mmplay.playMP3());
-
+                
+                else {
+                    mmplay.stopMP3();//音楽停止
+                    setStateMachine(MUSIC_PLAY,EXIT);
+                }
                 if(m_flag_btnA_is_pressed==true)
-            {   
+            {    AppControl::setBtnAllFlgFalse();
                   mmplay.stopMP3();//音楽停止
 
                 setStateMachine(MUSIC_PLAY,EXIT);
@@ -557,9 +561,8 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
-             if(m_flag_btnA_is_pressed==true)
-            {   
-              AppControl::setBtnAllFlgFalse();
+
+             
 
                 setStateMachine(MUSIC_STOP,ENTRY);
             }
