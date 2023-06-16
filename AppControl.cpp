@@ -243,11 +243,11 @@ void AppControl::displayMusicPlay()//音楽再生画面の描写
          mlcd.displayJpgImageCoordinate(MUSIC_NOWPLAYING_IMG_PATH,MUSIC_NOTICE_X_CRD,MUSIC_NOTICE_Y_CRD);//now playing
             mlcd.displayJpgImageCoordinate(COMMON_BUTTON_STOP_IMG_PATH,MUSIC_STOP_X_CRD,MUSIC_STOP_Y_CRD);//停止ボタン	
 /*0615にかいたもの*/
-         mmplay.prepareMP3();
-       if( ! mmplay.isRunningMP3())
-       {
-        mmplay.playMP3();
-       }
+        // mmplay.prepareMP3();
+      // if( ! mmplay.isRunningMP3())
+      // {
+      //  mmplay.playMP3();
+      // }
       
 }
 
@@ -532,12 +532,25 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             case DO:
             displayMusicTitle();
-            if(m_flag_btnA_is_pressed==true)
+            mmplay.prepareMP3();//音楽ファイルの再生に必要なインスタンスの生成とデコードを開始する
+            /*0615にかいたもの*/
+            while( (mmplay.isRunningMP3()))
+            {
+                if(mmplay.playMP3());
+
+                if(m_flag_btnA_is_pressed==true)
             {   
-                mmplay.stopMP3();
+                  mmplay.stopMP3();//音楽停止
 
                 setStateMachine(MUSIC_PLAY,EXIT);
             }
+            }
+
+
+
+            if(  !mmplay.isRunningMP3())//音楽が止まったのならば停止画面に移動
+              {setStateMachine(MUSIC_PLAY,EXIT);
+              }
             
 
             
