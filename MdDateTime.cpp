@@ -1,12 +1,13 @@
 #include "MdDateTime.h"
 #include <Arduino.h>
 
-MdDateTime::MdDateTime()
+MdDateTime::MdDateTime()//コンストラクターSerial2を9600bpsで開く。
+
 {
     Serial2.begin(9600);
 }
 
-String MdDateTime::readDate()
+String MdDateTime::readDate()//現在の日付取得
 {
     int i = 0;
     char c = 0;
@@ -20,7 +21,7 @@ String MdDateTime::readDate()
     return String(date);
 }
 
-String MdDateTime::readTime()
+String MdDateTime::readTime()//現在の時刻取得
 {
     int i = 0;
     char c = 0;

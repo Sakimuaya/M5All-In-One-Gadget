@@ -271,7 +271,13 @@ void AppControl::displayDateInit()//時刻の初期画面
 }
 
 void AppControl::displayDateUpdate()//現在の時刻の描写
-{
+//関数 MdDateTime::readDate()とMdDateTime::readTime()により現在の日時を取得し、描画する
+{///*0616*/
+   // mdtime.MdDateTime();
+    //mdtime.readDate();
+   // mdtime.readTime();
+mlcd.displayDateText(mdtime.readDate(), DATE_YYYYMMDD_X_CRD, DATE_YYYYMMDD_Y_CRD);
+mlcd.displayDateText(mdtime.readTime(), DATE_HHmmSS_X_CRD, DATE_HHmmSS_Y_CRD);
 }
 
 void AppControl::controlApplication()//すべての機能のコントロール
@@ -625,6 +631,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case DO:
+            displayDateUpdate();//日付時刻取得
             if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
             {
             setStateMachine(DATE,EXIT);
