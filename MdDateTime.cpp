@@ -1,5 +1,4 @@
 #include "MdDateTime.h"
-#include <Arduino.h>
 
 MdDateTime::MdDateTime()//コンストラクターSerial2を9600bpsで開く。
 
