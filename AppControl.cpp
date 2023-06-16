@@ -536,25 +536,28 @@ void AppControl::controlApplication()//すべての機能のコントロール
             /*0615にかいたもの*/
             while( (mmplay.isRunningMP3()))
             {
-                if(mmplay.playMP3());
-                
-                else {
-                    mmplay.stopMP3();//音楽停止
-                    setStateMachine(MUSIC_PLAY,EXIT);
-                }
-                if(m_flag_btnA_is_pressed==true)
+                if(mmplay.playMP3())
+                {
+                 if(m_flag_btnA_is_pressed==true)
             {    AppControl::setBtnAllFlgFalse();
                   mmplay.stopMP3();//音楽停止
 
                 setStateMachine(MUSIC_PLAY,EXIT);
             }
+           
+                }
+                else {
+                    mmplay.stopMP3();//音楽停止
+                    setStateMachine(MUSIC_PLAY,EXIT);
+                }
+               
             }
 
 
 
-            if(  !mmplay.isRunningMP3())//音楽が止まったのならば停止画面に移動
-              {setStateMachine(MUSIC_PLAY,EXIT);
-              }
+            //if(  !mmplay.isRunningMP3())//音楽が止まったのならば停止画面に移動
+             // {setStateMachine(MUSIC_PLAY,EXIT);
+             // }
             
 
             
@@ -565,7 +568,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
              
 
                 setStateMachine(MUSIC_STOP,ENTRY);
-            }
+            
             
                 break;
 
