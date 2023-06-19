@@ -266,37 +266,80 @@ void AppControl::displayMeasureDistance()//測定した距離を画面に出す
   
   for(int i=0;i<len;i++){
   writeData();*/
- String str=String(mmdist.getDistance());
- int len =str.length();//文字列の長さ
-for(int i=0;i<4;i++){
+ String str=String(mmdist.getDistance()*100000);//文字列を1こ1こ配列にさせる関数
+bool hyaku=false;
+bool zyuu =false;
+bool iti=false;
+
+
+if(mmdist.getDistance()>100)
+{
+    hyaku=true;
   M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(str.charAt(0));
+}
+else{
+     M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位zero
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+    M5.Lcd.print("0");
+}
 
-   M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
+if(mmdist.getDistance()>10)
+{
+    if(hyaku=true)
+    { M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(str.charAt(1));
-
+  }
+  else{
+    M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(str.charAt(0));
+  }
+  
+}
+else{
+       M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位zero
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(0);
+}
+if(mmdist.getDistance()>1)
+{
    M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(str.charAt(2));
+}
+else{
+       M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位zero
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print("0");
 
 
-    M5.Lcd.setCursor(MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);
+}
+
+
+    M5.Lcd.setCursor(MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);//小数点
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(str.charAt(3));
 
- 
-
-  
+      M5.Lcd.setCursor(0, 150);//表示が実際の出している数字と一緒か比較用のもの　後で消す
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(mmdist.getDistance());
+  delay(500);
 }
 
   //  mmdist.getDistance()//距離取得関数
-}
+
 
 void AppControl::displayDateInit()//時刻の初期画面
 {
