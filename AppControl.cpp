@@ -261,6 +261,41 @@ void AppControl::displayMeasureInit()//距離の初期画面
 
 void AppControl::displayMeasureDistance()//測定した距離を画面に出す
 {
+  /*String str=String(mmdist.getDistance());
+  int len =str.length();//文字列の長さ
+  
+  for(int i=0;i<len;i++){
+  writeData();*/
+ String str=String(mmdist.getDistance());
+ int len =str.length();//文字列の長さ
+for(int i=0;i<4;i++){
+  M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(str.charAt(0));
+
+   M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(str.charAt(1));
+
+   M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(str.charAt(2));
+
+
+    M5.Lcd.setCursor(MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);
+   M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(3);
+  M5.Lcd.print(str.charAt(3));
+
+ 
+
+  
+}
+
+  //  mmdist.getDistance()//距離取得関数
 }
 
 void AppControl::displayDateInit()//時刻の初期画面
@@ -597,6 +632,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case DO:
+            displayMeasureDistance();
             if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
             {
             setStateMachine(MEASURE,EXIT);

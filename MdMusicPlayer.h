@@ -15,3 +15,4 @@ public: // publicはどこからでもアクセス可能
     bool playMP3();
     void stopMP3();
 };
+
