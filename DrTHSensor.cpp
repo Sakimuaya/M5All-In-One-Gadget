@@ -26,7 +26,7 @@ void DrTHSensor::initAesht3x()
     delay(100);
 }
 
-void DrTHSensor::getTempHumi(double* temperature, double* humidity)
+void DrTHSensor::getTempHumi(double* temperature, double* humidity)//SHT31から温湿度データの取得・変換を行い、温度データと湿度データに分けてtemperature , humidityのアドレスに格納する
 {
 
     // 変数宣言

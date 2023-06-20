@@ -256,139 +256,94 @@ void AppControl::displayMeasureInit()//距離の初期画面
     mlcd.fillBackgroundWhite();//画面を白く
    mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,MEASURE_BACK_X_CRD,MEASURE_BACK_Y_CRD);//戻るボタン
     mlcd.displayJpgImageCoordinate(MEASURE_NOTICE_IMG_PATH,MEASURE_NOTICE_X_CRD,MEASURE_NOTICE_Y_CRD);//測定中の画面
-
+    mlcd.displayJpgImageCoordinate(COMMON_BLUEDOT_IMG_PATH, MEASURE_DOT_X_CRD, MEASURE_DOT_Y_CRD);//.
+    mlcd.displayJpgImageCoordinate(MEASURE_CM_IMG_PATH, MEASURE_CM_X_CRD, MEASURE_CM_Y_CRD);
 }
 
 void AppControl::displayMeasureDistance()//測定した距離を画面に出す
 {
-  /*String str=String(mmdist.getDistance());
-  int len =str.length();//文字列の長さ
-  
-  for(int i=0;i<len;i++){
-  writeData();*/
+
  String str=String(mmdist.getDistance()*100000);//文字列を1こ1こ配列にさせる関数
 bool hyaku=false;
 bool zyuu =false;
 bool iti=false;
 
-/*
-if(mmdist.getDistance()>100)
-{
-  M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(str.charAt(0));
+   int hyakunokurai=0;//百の位
+  if (mmdist.getDistance() > 100) {
+    hyakunokurai=str.charAt(0)- '0';
+    hyaku = true;
+} else {
+    hyakunokurai=0;
 }
-else{
-     M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位zero
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-    M5.Lcd.print("0");
-}
-
-if(mmdist.getDistance()>10)
-{
-     M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(str.charAt(1));
-  
-}
-else{
-       M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位zero
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(0);
-}
-if(mmdist.getDistance()>1)
-{
-   M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(str.charAt(2));
-}
-else{
-       M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位zero
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print("0");
+mlcd.displayJpgImageCoordinate(g_str_blue[hyakunokurai], MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);
 
 
-}
-
-
-    M5.Lcd.setCursor(MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);//小数点
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(str.charAt(3));
-
-      M5.Lcd.setCursor(0, 150);//表示が実際の出している数字と一緒か比較用のもの　後で消す
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-  M5.Lcd.print(mmdist.getDistance());
-  delay(500);*/
-
-/*tamesinikaiteirumono*/
-
-M5.Lcd.setCursor(MEASURE_DIGIT3_X_CRD, MEASURE_DIGIT3_Y_CRD);//百の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-    char hyakunokurai=0;
-
-    if(mmdist.getDistance()>100){
-    hyakunokurai=str.charAt(0);
-    hyaku=true;
-    }else{
-        hyakunokurai=0;
+    int zyuunokurai=0;//10の位
+  if (mmdist.getDistance() > 10) {
+    zyuu = true;
+    if (hyaku == true) {
+        zyuunokurai=str.charAt(1)- '0';
+    
+    } else {
+        zyuunokurai=str.charAt(0)- '0';
+   
     }
-     M5.Lcd.print(hyakunokurai);
+    } else {
+    zyuunokurai=0;
+
+}
+mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokurai], MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);
 
 
-     M5.Lcd.setCursor(MEASURE_DIGIT2_X_CRD, MEASURE_DIGIT2_Y_CRD);//十の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-    char zyuunokurai=0;
-     if(mmdist.getDistance()>10){
-        zyuu=true;
-             if(hyaku==true){
-                zyuunokurai=str.charAt(1);
-             }else{
-                zyuunokurai=str.charAt(0);
-             }
-    }else{
-        zyuunokurai=0;
-    }
-        M5.Lcd.print(zyuunokurai);
-
-
-   M5.Lcd.setCursor(MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);//1の位
-   M5.Lcd.setTextColor(0x0000, 0xFFFF);
-    M5.Lcd.setTextSize(3);
-    char itinokurai=0;
+    int itinokurai=0;//1の位
     if(mmdist.getDistance()>1){
         iti=true;
-        if(zyuu==false){
-            itinokurai=str.charAt(2);
-        }else if(hyaku=true){
-            itinokurai=str.charAt(0);
-        }else{
-            itinokurai=str.charAt(1);
-        }else{
+            if(zyuu=true){
+                if(hyaku=true){
+                         itinokurai=str.charAt(2)- '0';
+                }else{
+                         itinokurai=str.charAt(1)- '0';
+                }
+            }else{
+                         itinokurai=str.charAt(0)- '0';
+            }
+         }else{
             itinokurai=0;
-        }
-    }
-  M5.Lcd.print(itinokurai);
+         }
+     mlcd.displayJpgImageCoordinate(g_str_blue[itinokurai], MEASURE_DIGIT1_X_CRD, MEASURE_DIGIT1_Y_CRD);
 
-      M5.Lcd.setCursor(0, 150);//表示が実際の出している数字と一緒か比較用のもの　後で消す
+
+    int syousuutenn=0;//小数点
+    if(mmdist.getDistance()>0.1){
+        if(iti=true){
+            if(zyuu=true){
+                if(hyaku=true){
+                        syousuutenn=str.charAt(3)- '0';
+                }else{
+                    syousuutenn=str.charAt(2)- '0';
+                }
+            }else{
+               syousuutenn=str.charAt(1)- '0';
+            }
+         }else{
+               syousuutenn=str.charAt(0)- '0';
+            }
+    }else{
+        syousuutenn=0;
+    }
+ mlcd.displayJpgImageCoordinate(g_str_blue[syousuutenn], MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);
+
+
+     /* M5.Lcd.setCursor(0, 150);//表示が実際の出している数字と一緒か比較用のもの　後で消す
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(mmdist.getDistance());
-  delay(500);
-
+  delay(100);
+*/
 
 }
 
-  //  mmdist.getDistance()//距離取得関数
+ 
 
 
 void AppControl::displayDateInit()//時刻の初期画面
