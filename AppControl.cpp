@@ -543,7 +543,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case DO:
-           
+           mwbgt.init();//温度センサーの初期化
             if(m_flag_btnB_is_pressed==true)
             {
             AppControl::setBtnAllFlgFalse();

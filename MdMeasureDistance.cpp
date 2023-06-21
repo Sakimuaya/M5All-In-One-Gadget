@@ -7,7 +7,8 @@
 
 
 DrUltraSonic drultraa = DrUltraSonic(ECHO_PIN,TRIG_PIN);
-
+//もし、超音波センサーを2こ使いたいときはDrUltraSonic aaa/*ここの部分を変える*/ = DrUltraSonic(10,9);9/*もちろんピンセンサーも2こめのものにする*/
+/*ということをすれば　、楽に2こめをつくることができる。これがオブジェクト指向設定のメリットである。*/
 
 
 double MdMeasureDistance::getDistance()//変数distanceに超音波センサーから取得した値を距離(cm単位)に変換して格納する。
