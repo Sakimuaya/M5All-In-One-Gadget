@@ -15,9 +15,26 @@ void MdWBGTMonitor::getWBGT(double* temperature,double* humidity,WbgtIndex* inde
 {
 /*double* temperature;//取得した温度を代入する変数のアドレス
 double* humidity;//取得した湿度を代入する変数のアドレス
-WbgtIndex* index;//アラートを代入する変数のアドレス*///これがわからない状態
+WbgtIndex* index;//アラートを代入する変数のアドレス*/
+
+
 int calc_index=0;//WBGTの計算結果を格納する
+calc_index=0.68* *temperature+0.12* *humidity;
+
 
 //index = 0.68 * 温度[℃] ＋ 0.12 * 湿度[%]
 
+if(calc_index<=15){
+    *index=SAFE;
+}else if(calc_index<=24){
+    *index=ATTENTION;
+}else if(calc_index<=27){
+    *index=ALERT; 
+}else if(calc_index<=30){
+    *index=HIGH_ALERT; 
+}else if(calc_index>=31){  
+    *index=HIGH_ALERT;
 }
+
+
+}//関数の括弧です（あとでコメント消す）
