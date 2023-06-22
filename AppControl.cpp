@@ -98,7 +98,7 @@ void AppControl::setFocusState(FocusState fs)//多分フォーカス変数変更
 void AppControl::displayTitleInit()
 {
     mlcd.displayJpgImageCoordinate(TITLE_IMG_PATH,TITLE_X_CRD,TITLE_Y_CRD);
-   
+   mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_PERCENT_X_CRD,WBGT_PERCENT_Y_CRD);//ｃ//なぜか表示されない
 }
 
 void AppControl::displayMenuInit()
@@ -195,7 +195,7 @@ void AppControl::focusChangeImg(FocusState current_state, FocusState next_state)
 
 void AppControl::displayWBGTInit()
 {//0613に編集//
-     mlcd.fillBackgroundWhite();
+     
     mlcd.displayJpgImageCoordinate(COMMON_BUTTON_BACK_IMG_PATH,WBGT_BACK_X_CRD,WBGT_BACK_Y_CRD);//戻るボタン
     mlcd.displayJpgImageCoordinate(WBGT_TEMPERATURE_IMG_PATH,WBGT_TEMPERATURE_X_CRD,WBGT_TEMPERATURE_Y_CRD);//温度
     mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_DEGREE_X_CRD,WBGT_DEGREE_Y_CRD);//ｃ//なぜか表示されない
@@ -207,8 +207,140 @@ displayTempHumiIndex();
 
 void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・湿度・アラートを描画する
 {
+   
+    double onndo;
+    double situdo;
+    WbgtIndex nowindex=HIGH_ALERT;
+    mwbgt.init();//温度センサーの初期化
+   
+    mwbgt.getWBGT(&onndo,&situdo,&nowindex);//アラート取得*/
+    switch(nowindex){
+
+        case SAFE:
+        mlcd.displayJpgImageCoordinate(WBGT_SAFE_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+        break;
+        case ATTENTION:
+         mlcd.displayJpgImageCoordinate(WBGT_ATTENTION_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+        break;
+        case ALERT:
+         mlcd.displayJpgImageCoordinate(WBGT_ALERT_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+        break;
+        case HIGH_ALERT:
+         mlcd.displayJpgImageCoordinate(WBGT_HIGH_ALERT_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+        default:
+         mlcd.displayJpgImageCoordinate(WBGT_DANGER_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+    }//アラート表示↑*/
+
+    /*//変数の中身確認用　　後で消す
+        M5.Lcd.setCursor(20, 100);
+    M5.Lcd.setTextColor(0x0000, 0xFFFF);
+    M5.Lcd.setTextSize(2);
+    M5.Lcd.print(onndo);
+　　//確認用*/
+
+/*温度用文字いれ*/
+    String str=String(onndo*10000);//文字列を1こ1こ配列にさせる関数
+bool iti =false;
+bool zyuu=false;
+
+   int zyuunokurai=0;//十の位
+  if (onndo > 10) {
+    zyuunokurai=str.charAt(0)- '0';
+    zyuu = true;
+} else {
+    zyuunokurai=0;
+}
+mlcd.displayJpgImageCoordinate(g_str_orange[zyuunokurai], WBGT_T2DIGIT_X_CRD, WBGT_T2DIGIT_Y_CRD);
+
+
+    int itinokurai=0;//1の位
+  if (onndo > 1) {
+    iti = true;
+    if (zyuu == true) {
+        itinokurai=str.charAt(1)- '0';
+    
+    } else {
+        itinokurai=str.charAt(0)- '0';
+   
+    }
+    } else {
+    itinokurai=0;
 
 }
+mlcd.displayJpgImageCoordinate(g_str_orange[itinokurai], WBGT_T1DIGIT_X_CRD, WBGT_T1DIGIT_Y_CRD);
+
+
+    int syousuu=0;//小数点
+    if(onndo>0.1){
+        iti=true;
+            if(iti=true){
+                if(zyuu=true){
+                         syousuu=str.charAt(2)- '0';
+                }else{
+                         syousuu=str.charAt(1)- '0';
+                }
+            }else{
+                         syousuu=str.charAt(0)- '0';
+            }
+         }else{
+            syousuu=0;
+         }
+     mlcd.displayJpgImageCoordinate(g_str_orange[syousuu], WBGT_T1DECIMAL_X_CRD, WBGT_T1DECIMAL_Y_CRD);
+
+/*湿度ようもじいれ*/
+    String strsitudo =String(situdo*10000);//文字列を1こ1こ配列にさせる関数
+bool itisitudo =false;
+bool zyuusitudo=false;
+
+   int zyuunokuraisitudo=0;//十の位
+  if (situdo > 10) {
+    zyuunokuraisitudo=strsitudo.charAt(0)- '0';
+    zyuusitudo = true;
+} else {
+    zyuunokuraisitudo=0;
+}
+mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokuraisitudo], WBGT_H2DIGIT_X_CRD, WBGT_H2DIGIT_Y_CRD);
+
+
+    int itinokuraisitudo=0;//1の位
+  if (situdo > 1) {
+    itisitudo = true;
+    if (zyuusitudo == true) {
+        itinokuraisitudo=strsitudo.charAt(1)- '0';
+    
+    } else {
+        itinokuraisitudo=strsitudo.charAt(0)- '0';
+   
+    }
+    } else {
+    itinokuraisitudo=0;
+
+}
+mlcd.displayJpgImageCoordinate(g_str_blue[itinokuraisitudo], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
+
+
+    int syousuusitudo=0;//小数点
+    if(situdo>0.1){
+        iti=true;
+            if(iti=true){
+                if(zyuu=true){
+                         syousuusitudo=strsitudo.charAt(2)- '0';
+                }else{
+                         syousuusitudo=strsitudo.charAt(1)- '0';
+                }
+            }else{
+                         syousuusitudo=strsitudo.charAt(0)- '0';
+            }
+         }else{
+            syousuusitudo=0;
+         }
+     mlcd.displayJpgImageCoordinate(g_str_blue[syousuusitudo], WBGT_H1DECIMAL_X_CRD, WBGT_H1DECIMAL_Y_CRD);
+
+
+}
+
+
+
 
 void AppControl::displayMusicInit()//おんがく初期画面
 {
@@ -538,12 +670,12 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             switch (getAction()) {
             case ENTRY:
-            displayWBGTInit();
+            mlcd.fillBackgroundWhite();
             setStateMachine(WBGT,DO);
                 break;
 
             case DO:
-           mwbgt.init();//温度センサーの初期化
+           displayWBGTInit();
             if(m_flag_btnB_is_pressed==true)
             {
             AppControl::setBtnAllFlgFalse();

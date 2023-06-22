@@ -8,6 +8,8 @@
 #include "MdMusicPlayer.h"
 #include "MdWBGTMonitor.h"
 
+#include "DrTHSensor.h"
+
 class AppControl // classの定義
 {
 private: // privateはクラス内からしかアクセスできない
@@ -18,6 +20,7 @@ private: // privateはクラス内からしかアクセスできない
     /* State Machine */
     State m_state = TITLE;
     Action m_action = ENTRY;
+
 
     /* GUI State */
     FocusState m_focus_state = MENU_WBGT;

@@ -2,6 +2,9 @@
 #include <Arduino.h>
 #include <Wire.h>
 
+
+
+
 // 初期化処理
 void DrTHSensor::init()
 {
