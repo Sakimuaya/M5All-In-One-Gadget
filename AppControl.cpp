@@ -224,7 +224,11 @@ void AppControl::displayWBGTInit()
     mlcd.displayJpgImageCoordinate(WBGT_TEMPERATURE_IMG_PATH,WBGT_TEMPERATURE_X_CRD,WBGT_TEMPERATURE_Y_CRD);//温度
     mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_DEGREE_X_CRD,WBGT_DEGREE_Y_CRD);//ｃ//なぜか表示されない
     mlcd.displayJpgImageCoordinate(WBGT_HUMIDITY_IMG_PATH,WBGT_HUMIDITY_X_CRD,WBGT_HUMIDITY_Y_CRD);//湿度
-     mlcd.displayJpgImageCoordinate(WBGT_PERCENT_IMG_PATH,WBGT_PERCENT_X_CRD,WBGT_PERCENT_Y_CRD);//%
+    mlcd.displayJpgImageCoordinate(WBGT_PERCENT_IMG_PATH,WBGT_PERCENT_X_CRD,WBGT_PERCENT_Y_CRD);//%
+    mlcd.displayJpgImageCoordinate(COMMON_ORANGEDOT_IMG_PATH,WBGT_TDOT_X_CRD,WBGT_TDOT_Y_CRD);//温度の.
+    mlcd.displayJpgImageCoordinate(COMMON_BLUEDOT_IMG_PATH,WBGT_HDOT_X_CRD,WBGT_HDOT_Y_CRD);//湿度の.
+
+
 displayTempHumiIndex();
 
 }   
@@ -251,6 +255,7 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
         break;
         case HIGH_ALERT:
          mlcd.displayJpgImageCoordinate(WBGT_HIGH_ALERT_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
+         break;
         default:
          mlcd.displayJpgImageCoordinate(WBGT_DANGER_IMG_PATH,WBGT_NOTICE_X_CRD,WBGT_NOTICE_Y_CRD);
     }//アラート表示↑*/
@@ -297,7 +302,7 @@ mlcd.displayJpgImageCoordinate(g_str_orange[itinokurai], WBGT_T1DIGIT_X_CRD, WBG
     int syousuu=0;//小数点
     if(onndo>0.1){
         iti=true;
-            if(iti=true){
+            if(iti==true){
                 if(zyuu=true){
                          syousuu=str.charAt(2)- '0';
                 }else{
@@ -454,8 +459,8 @@ mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokurai], MEASURE_DIGIT2_X_CRD, ME
     int itinokurai=0;//1の位
     if(mmdist.getDistance()>1){
         iti=true;
-            if(zyuu=true){
-                if(hyaku=true){
+            if(zyuu==true){
+                if(hyaku==true){
                          itinokurai=str.charAt(2)- '0';
                 }else{
                          itinokurai=str.charAt(1)- '0';
@@ -471,9 +476,9 @@ mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokurai], MEASURE_DIGIT2_X_CRD, ME
 
     int syousuutenn=0;//小数点
     if(mmdist.getDistance()>0.1){
-        if(iti=true){
-            if(zyuu=true){
-                if(hyaku=true){
+        if(iti==true){
+            if(zyuu==true){
+                if(hyaku==true){
                         syousuutenn=str.charAt(3)- '0';
                 }else{
                     syousuutenn=str.charAt(2)- '0';
