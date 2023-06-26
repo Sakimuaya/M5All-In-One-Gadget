@@ -8,7 +8,6 @@
 #include "MdMusicPlayer.h"
 #include "MdWBGTMonitor.h"
 
-#include "DrTHSensor.h"
 
 class AppControl // classの定義
 {

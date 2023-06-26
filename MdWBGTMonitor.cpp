@@ -17,7 +17,7 @@ void MdWBGTMonitor::getWBGT(double* temperature,double* humidity,WbgtIndex* inde
 double* humidity;//取得した湿度を代入する変数のアドレス
 WbgtIndex* index;//アラートを代入する変数のアドレス*/
 
-dthsen.init();
+init();
 dthsen.getTempHumi(temperature,humidity);//このままだとエラーがおきてしまう
 int calc_index=0;//WBGTの計算結果を格納する
 calc_index=0.68* *temperature+0.12* *humidity;

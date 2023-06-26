@@ -98,7 +98,6 @@ void AppControl::setFocusState(FocusState fs)//多分フォーカス変数変更
 void AppControl::displayTitleInit()
 {
     mlcd.displayJpgImageCoordinate(TITLE_IMG_PATH,TITLE_X_CRD,TITLE_Y_CRD);
-   mlcd.displayJpgImageCoordinate(WBGT_DEGREE_IMG_PATH,WBGT_PERCENT_X_CRD,WBGT_PERCENT_Y_CRD);//ｃ//なぜか表示されない
 }
 
 void AppControl::displayMenuInit()
@@ -239,7 +238,7 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
     double onndo;
     double situdo;
     WbgtIndex nowindex=HIGH_ALERT;
-    mwbgt.init();//温度センサーの初期化
+    //mwbgt.init();//温度センサーの初期化
    
     mwbgt.getWBGT(&onndo,&situdo,&nowindex);//アラート取得*/
     switch(nowindex){
@@ -343,6 +342,7 @@ mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokuraisitudo], WBGT_H2DIGIT_X_CRD
     }
     } else {
     itinokuraisitudo=0;
+
 
 }
 mlcd.displayJpgImageCoordinate(g_str_blue[itinokuraisitudo], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
@@ -493,13 +493,13 @@ mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokurai], MEASURE_DIGIT2_X_CRD, ME
         syousuutenn=0;
     }
  mlcd.displayJpgImageCoordinate(g_str_blue[syousuutenn], MEASURE_DECIMAL_X_CRD, MEASURE_DECIMAL_Y_CRD);
-
+delay(200);//本当は250秒待ちなものの動くまでの時間が0.3秒だったため数字を調整
 
      /* M5.Lcd.setCursor(0, 150);//表示が実際の出している数字と一緒か比較用のもの　後で消す
    M5.Lcd.setTextColor(0x0000, 0xFFFF);
     M5.Lcd.setTextSize(3);
   M5.Lcd.print(mmdist.getDistance());
-  delay(100);
+  
 */
 
 }
@@ -533,6 +533,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
         case TITLE:
             switch (getAction()) {
             case ENTRY:
+            Serial.println("タイトル　ENTRY");
                 /*
                 ** まずはここにタイトル画面の表示処理を呼び出してみよう。
                 ** タイトル画面表示の関数はdisplayTitleInit()である。
@@ -544,6 +545,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case DO:
+            Serial.println("タイトル　DO");
                   if(m_flag_btnA_is_pressed==true||m_flag_btnB_is_pressed==true||m_flag_btnC_is_pressed==true)
                   {setStateMachine(TITLE,EXIT);}
                   else{}
@@ -551,6 +553,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
+            Serial.println("タイトル　EXIT");
              M5.Lcd.clear();//画面を消す関数みつけたらそれに変更
                 setStateMachine(MENU,ENTRY);
             
@@ -567,12 +570,15 @@ void AppControl::controlApplication()//すべての機能のコントロール
             switch (getAction()) {
             case ENTRY:
                 displayMenuInit();
+                Serial.println("メニューエントリー");
                 setStateMachine(MENU,DO);
                 break;
 
             case DO:
 //最初のifは現在のフォーカスで分岐、次のifは押したボタンで分岐
+             Serial.println("　メニューDO");
            //熱中症フォーカス//
+
             if(getFocusState()==MENU_WBGT)
             {    Serial.println("熱中症フォーカス");
                 //Aボタンは↑、Cボタンは↓
@@ -667,6 +673,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
             
             case EXIT:
+            Serial.println("　メニューエントリー");
            switch (getFocusState()) {
             case MENU_WBGT :
             setStateMachine(WBGT,ENTRY);
@@ -699,20 +706,23 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             switch (getAction()) {
             case ENTRY:
+            Serial.println("熱中症モニター画面エントリー　");
             mlcd.fillBackgroundWhite();
             setStateMachine(WBGT,DO);
                 break;
 
             case DO:
+            Serial.println("熱中症画面DO　");
            displayWBGTInit();
             if(m_flag_btnB_is_pressed==true)
             {
-            AppControl::setBtnAllFlgFalse();
+            setBtnAllFlgFalse();
             setStateMachine(WBGT,EXIT);
             }
                 break;
 
             case EXIT:
+            Serial.println("熱中症いぐじっと　");
             setStateMachine(MENU,ENTRY);
                 break;
 
@@ -725,13 +735,14 @@ void AppControl::controlApplication()//すべての機能のコントロール
         case MUSIC_STOP:
             switch (getAction()) {
             case ENTRY:
+            Serial.println("音楽とめエントリー　");
             displayMusicInit();//初期画面
             displayMusicTitle();//タイトル描写
             setStateMachine(MUSIC_STOP,DO);
                 break;
 
             case DO: 
-            
+            Serial.println("音楽とめ　DO　");
             displayMusicStop();
             if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
             {
@@ -752,6 +763,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
+            Serial.println("音楽とめ　イグジット　");
             if(m_flag_btnB_is_pressed==true)
             {
                 AppControl::setBtnAllFlgFalse();
@@ -775,12 +787,14 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             switch (getAction()) {
             case ENTRY:
+            Serial.println("ミュージックプレイ　エントリー　");
                 displayMusicPlay();
 
             setStateMachine(MUSIC_PLAY,DO);
                 break;
 
             case DO:
+            Serial.println("ミュージックプレイ　DO　");
             displayMusicTitle();
             mmplay.prepareMP3();//音楽ファイルの再生に必要なインスタンスの生成とデコードを開始する
             /*0615にかいたもの*/
@@ -814,7 +828,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
-
+                Serial.println("　ミュージックプレイイグジット");
              
 
                 setStateMachine(MUSIC_STOP,ENTRY);
@@ -835,12 +849,14 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             switch (getAction()) {
             case ENTRY:
+            Serial.println("　距離測るエントリー");
             displayMeasureInit();//距離の初期画面
 
             setStateMachine(MEASURE,DO);
                 break;
 
             case DO:
+            Serial.println("　距離測る　DO");
             displayMeasureDistance();
             if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
             {
@@ -849,6 +865,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
+            Serial.println("　距離測る　イグジット");
                   if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
@@ -868,6 +885,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
 
             switch (getAction()) {
             case ENTRY:
+            Serial.println("　時刻表エントリー");
             displayDateInit();//時刻の初期画面
 
 
@@ -876,6 +894,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case DO:
+            Serial.println("　時刻表　DO");
             displayDateUpdate();//日付時刻取得
             if(m_flag_btnB_is_pressed==true)//戻るボタンを押したとき
             {
@@ -886,6 +905,7 @@ void AppControl::controlApplication()//すべての機能のコントロール
                 break;
 
             case EXIT:
+                    Serial.println("　時刻ひょういぐじっと");
                  if(m_flag_btnB_is_pressed==true)
                    {
                 AppControl::setBtnAllFlgFalse();
