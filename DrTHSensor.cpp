@@ -20,13 +20,13 @@ void DrTHSensor::initAesht3x()
     Wire.write(SOFT_RESET_MSB); // ソフトリセットMSB
     Wire.write(SOFT_RESET_LSB); // ソフトリセットLSB
     Wire.endTransmission(); // I2Cスレーブ「Arduino Uno」のデータ送信終了
-    delay(30);//100からかきかえました
+    delay(100);//100からかきかえました
 
     Wire.beginTransmission(SHT31_ADDR); // I2Cスレーブ「Arduino Uno」のデータ送信開始
     Wire.write(CLEAR_STATUS_REGISTER_MSB); // ステータスレジスタ消去MSB
     Wire.write(CLEAR_STATUS_REGISTER_LSB); // ステータスレジスタ消去LSB
     Wire.endTransmission(); // I2Cスレーブ「Arduino Uno」のデータ送信終了
-    delay(30);//100から書き換えました
+    delay(100);//100から書き換えました（100だった場合は元に戻している上も同様）
 }
 
 void DrTHSensor::getTempHumi(double* temperature, double* humidity)//SHT31から温湿度データの取得・変換を行い、温度データと湿度データに分けてtemperature , humidityのアドレスに格納する
