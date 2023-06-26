@@ -236,6 +236,7 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
 {
    
     double onndo;
+    
     double situdo;
     WbgtIndex nowindex=HIGH_ALERT;
     //mwbgt.init();//温度センサーの初期化
@@ -267,103 +268,70 @@ void AppControl::displayTempHumiIndex()//熱中症モニタの画面に温度・
 　　//確認用*/
 
 /*温度用文字いれ*/
-    String str=String(onndo*10000);//文字列を1こ1こ配列にさせる関数
-bool iti =false;
-bool zyuu=false;
+int itinokurai;
+int syousuutenn;
+//Serial.println(zyuunokurai);
 
-   int zyuunokurai=0;//十の位
-  if (onndo > 10) {
-    zyuunokurai=str.charAt(0)- '0';
-    zyuu = true;
-} else {
-    zyuunokurai=0;
+/*10の位*/
+if(!(onndo<9&&onndo<-9)){//温度が一桁になっていない場合
+     int zyuunokurai = ((int)onndo%100)/10;//10の位抜き取り
+    mlcd.displayJpgImageCoordinate(g_str_orange[zyuunokurai], WBGT_T2DIGIT_X_CRD, WBGT_T2DIGIT_Y_CRD);
+}else{
+    mlcd.displayJpgImageCoordinate(COMMON_ORANGEFILLWHITE_IMG_PATH, WBGT_T2DIGIT_X_CRD, WBGT_T2DIGIT_Y_CRD);
 }
-mlcd.displayJpgImageCoordinate(g_str_orange[zyuunokurai], WBGT_T2DIGIT_X_CRD, WBGT_T2DIGIT_Y_CRD);
 
-
-    int itinokurai=0;//1の位
-  if (onndo > 1) {
-    iti = true;
-    if (zyuu == true) {
-        itinokurai=str.charAt(1)- '0';
-    
-    } else {
-        itinokurai=str.charAt(0)- '0';
-   
-    }
-    } else {
-    itinokurai=0;
-
+/*1の位*/
+if((onndo<9&&onndo<-9)){//温度が一桁になってる場合
+     itinokurai = ((int)onndo%100)/10;//1の位抜き取り
+}else{
+     itinokurai = ((int)onndo%10);//1の位抜き取り
 }
-mlcd.displayJpgImageCoordinate(g_str_orange[itinokurai], WBGT_T1DIGIT_X_CRD, WBGT_T1DIGIT_Y_CRD);
+    mlcd.displayJpgImageCoordinate(g_str_orange[itinokurai], WBGT_T1DIGIT_X_CRD, WBGT_T1DIGIT_Y_CRD);
+/*小数点*/
+double onndosyousuu=onndo*100;
+if (onndo<0){
+    onndosyousuu=onndosyousuu*-1;
+}
+if((onndo<9&&onndo<-9)){//温度が一桁になってる場合
+     syousuutenn = ((int)onndosyousuu %10)/1;//小数点第一位の位抜き取り
+}else{
+     syousuutenn = ((int)onndosyousuu %100)/10;//1の位抜き取り
+}
+    mlcd.displayJpgImageCoordinate(g_str_orange[syousuutenn], WBGT_T1DECIMAL_X_CRD, WBGT_T1DECIMAL_Y_CRD);
 
-
-    int syousuu=0;//小数点
-    if(onndo>0.1){
-        iti=true;
-            if(iti==true){
-                if(zyuu=true){
-                         syousuu=str.charAt(2)- '0';
-                }else{
-                         syousuu=str.charAt(1)- '0';
-                }
-            }else{
-                         syousuu=str.charAt(0)- '0';
-            }
-         }else{
-            syousuu=0;
-         }
-     mlcd.displayJpgImageCoordinate(g_str_orange[syousuu], WBGT_T1DECIMAL_X_CRD, WBGT_T1DECIMAL_Y_CRD);
-
+ 
 /*湿度ようもじいれ*/
-    String strsitudo =String(situdo*10000);//文字列を1こ1こ配列にさせる関数
-bool itisitudo =false;
-bool zyuusitudo=false;
 
-   int zyuunokuraisitudo=0;//十の位
-  if (situdo > 10) {
-    zyuunokuraisitudo=strsitudo.charAt(0)- '0';
-    zyuusitudo = true;
-} else {
-    zyuunokuraisitudo=0;
+
+ int itinokuraisitudo;
+ int syousuusitudo;
+
+ /*10の位*/
+if(!(situdo<9&&situdo<-9)){//温度が一桁になっていない場合
+     int zyuunokuraisitudo = ((int)situdo%100)/10;//10の位抜き取り
+    mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokuraisitudo], WBGT_H2DIGIT_X_CRD, WBGT_H2DIGIT_Y_CRD);
+}else{
+    mlcd.displayJpgImageCoordinate(COMMON_ORANGEFILLWHITE_IMG_PATH, WBGT_H2DIGIT_X_CRD, WBGT_H2DIGIT_Y_CRD);
 }
-mlcd.displayJpgImageCoordinate(g_str_blue[zyuunokuraisitudo], WBGT_H2DIGIT_X_CRD, WBGT_H2DIGIT_Y_CRD);
 
 
-    int itinokuraisitudo=0;//1の位
-  if (situdo > 1) {
-    itisitudo = true;
-    if (zyuusitudo == true) {
-        itinokuraisitudo=strsitudo.charAt(1)- '0';
-    
-    } else {
-        itinokuraisitudo=strsitudo.charAt(0)- '0';
-   
-    }
-    } else {
-    itinokuraisitudo=0;
-
-
+  /*1の位*/
+if((situdo<9&&situdo<-9)){//温度が一桁になってる場合
+     itinokuraisitudo = ((int)situdo%100)/10;//1の位抜き取り
+}else{
+     itinokuraisitudo = ((int)situdo%10);//1の位抜き取り
 }
-mlcd.displayJpgImageCoordinate(g_str_blue[itinokuraisitudo], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
+  mlcd.displayJpgImageCoordinate(g_str_blue[itinokuraisitudo], WBGT_H1DIGIT_X_CRD, WBGT_H1DIGIT_Y_CRD);
 
+/*小数点*/
+double situdosyousuu=situdo*100;
 
-    int syousuusitudo=0;//小数点
-    if(situdo>0.1){
-        iti=true;
-            if(iti=true){
-                if(zyuu=true){
-                         syousuusitudo=strsitudo.charAt(2)- '0';
-                }else{
-                         syousuusitudo=strsitudo.charAt(1)- '0';
-                }
-            }else{
-                         syousuusitudo=strsitudo.charAt(0)- '0';
-            }
-         }else{
-            syousuusitudo=0;
-         }
-     mlcd.displayJpgImageCoordinate(g_str_blue[syousuusitudo], WBGT_H1DECIMAL_X_CRD, WBGT_H1DECIMAL_Y_CRD);
+if((situdo<9&&situdo<-9)){//温度が一桁になってる場合
+     syousuusitudo = ((int)situdosyousuu %10)/1;//小数点第一位の位抜き取り
+}else{
+     syousuusitudo = ((int)situdosyousuu %100)/10;//1の位抜き取り
+}
+mlcd.displayJpgImageCoordinate(g_str_blue[syousuusitudo], WBGT_H1DECIMAL_X_CRD, WBGT_H1DECIMAL_Y_CRD);
 
 
 }
